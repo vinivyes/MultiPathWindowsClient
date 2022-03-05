@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>PingTicoVPN</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Icons\add.png" />
+    <None Remove="Resources\Icons\checkbox_checked_white.png" />
+    <None Remove="Resources\Icons\checkbox_white.png" />
+    <None Remove="Resources\Icons\delete.png" />
+    <None Remove="Resources\Icons\done_white.png" />
+    <None Remove="Resources\Icons\toggle_off.png" />
+    <None Remove="Resources\Icons\toggle_on.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\add.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\checkbox_checked_white.png" />
+    <Resource Include="Resources\Icons\checkbox_white.png" />
+    <Resource Include="Resources\Icons\delete.png" />
+    <Resource Include="Resources\Icons\done_white.png" />
+    <Resource Include="Resources\Icons\toggle_off.png" />
+    <Resource Include="Resources\Icons\toggle_on.png" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+﻿<Window x:Class="PingTicoVPN.Dialogs.AddRoute"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:attachedProperty="clr-namespace:PingTicoVPN.AttachedProperty"
+        xmlns:local="clr-namespace:PingTicoVPN.Dialogs"
+        mc:Ignorable="d"
+        Background="#333"
+        ResizeMode="NoResize"
+        Title="Add new Route" 
+        WindowStyle="None" 
+        Height="119" 
+        Width="345">
+    <Grid>
+        <Grid attachedProperty:EnableDragHelper.EnableDrag="True" Background="Transparent" HorizontalAlignment="Center" Width="345" Height="130" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10">
+            <Button Name="AddBTN" Click="AddBTN_Click" IsEnabled="False" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Top" Width="70" Height="20"/>
+            <Button Name="CancelBTN" Click="CancelBTN_Click" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Top" Width="70" Height="20" Margin="10 0 0 0"/>
+        </StackPanel>
+        <Label attachedProperty:EnableDragHelper.EnableDrag="True" Content="IP Address:" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="9,0,0,0" VerticalAlignment="Center" Height="27" Width="68" Foreground="White"/>
+        <Label attachedProperty:EnableDragHelper.EnableDrag="True" Content=":" HorizontalAlignment="Left" Margin="237,0,0,0" VerticalAlignment="Center" Height="27" Width="13" Foreground="White"/>
+        <TextBox Name="IPAddressTB" Text="" PreviewTextInput="IPAddress_PreviewTextInput" CommandManager.PreviewExecuted="IPAddress_PreviewExecuted" TextChanged="IPAddress_TextChanged"  HorizontalAlignment="Left" Margin="77,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157"  />
+        <TextBox Name="PortTB" Text="" PreviewTextInput="Port_PreviewTextInput" CommandManager.PreviewExecuted="Port_PreviewExecuted" TextChanged="Port_TextChanged" HorizontalAlignment="Left" Margin="254,52,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="75"  />
+        <Label attachedProperty:EnableDragHelper.EnableDrag="True" Content="Name:" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="14,15,0,0" VerticalAlignment="Top" Height="27" Width="63" Foreground="White"/>
+        <TextBox Name="NameTB" Text="" HorizontalAlignment="Left" Margin="77,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="252"  />
+    </Grid>
+</Window>
