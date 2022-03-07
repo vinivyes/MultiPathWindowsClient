@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using PingTicoVPN.AttachedProperty;
 using PingTicoVPN.Classes;
 using PingTicoVPN.Dialogs;
+using PingTicoVPN.Modules;
 
 public class ViewModel
 {
@@ -42,7 +43,11 @@ namespace PingTicoVPN
 
             DataContext = vm;
 
-            vm.RouteList.Add(new Route() { ip = new IPAddress(163303000), port = 23232, name = "MTC-CR-1" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 21213) { name = "Test 1" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 21213) { name = "Test 2" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 21213) { name = "Test 3" });
+
+            MultiPath.StartReceivingDataFromWireguard(ref vm);
         }
 
         #region - Process List 

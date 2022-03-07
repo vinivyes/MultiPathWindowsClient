@@ -226,10 +226,8 @@ namespace PingTicoVPN.Dialogs
 
         private void AddBTN_Click(object sender, RoutedEventArgs e)
         {
-            route = new Route();
-
-            route.ip = IPAddress.Parse(IPAddressTB.Text);
-            route.port = int.Parse(PortTB.Text);
+            route = new Route(IPAddress.Parse(IPAddressTB.Text), int.Parse(PortTB.Text));
+            
             route.name = NameTB.Text;
             route.active = false;
 
