@@ -22,6 +22,7 @@ using PingTicoVPN.Modules;
 
 public class ViewModel
 {
+    public ObservableCollection<Interface> InterfaceList { get; set; } = new ObservableCollection<Interface>();
     public ObservableCollection<Proc> ProcessList { get; set; } = new ObservableCollection<Proc>();
     public ObservableCollection<Route> RouteList { get; set; } = new ObservableCollection<Route>();
 }
@@ -40,15 +41,24 @@ namespace PingTicoVPN
             InitializeComponent();
 
             LoadProcessList();
+            LoadInterfaceList();
 
             DataContext = vm;
 
-            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 21213) { name = "Test 1" });
-            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 21213) { name = "Test 2" });
-            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 21213) { name = "Test 3" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("20.112.13.97"), 21213) { name = "Test 1" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("20.112.13.97"), 21214) { name = "Test 2" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("20.112.13.97"), 21215) { name = "Test 3" });
 
             MultiPath.StartReceivingDataFromWireguard(ref vm);
         }
+
+        #region - Interface List 
+
+        private void LoadInterfaceList() { 
+            
+        }
+        
+        #endregion - Interface List 
 
         #region - Process List 
 
