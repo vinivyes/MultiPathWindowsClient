@@ -45,9 +45,8 @@ namespace PingTicoVPN
 
             DataContext = vm;
 
-            vm.RouteList.Add(new Route(IPAddress.Parse("20.112.13.97"), 21213) { name = "Test 1" });
-            vm.RouteList.Add(new Route(IPAddress.Parse("20.112.13.97"), 21214) { name = "Test 2" });
-            vm.RouteList.Add(new Route(IPAddress.Parse("20.112.13.97"), 21215) { name = "Test 3" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("186.233.185.55"), 43333) { name = "Test 1" });
+            vm.RouteList.Add(new Route(IPAddress.Parse("143.202.163.227"), 43333) { name = "Test 2" });
 
             MultiPath.StartReceivingDataFromWireguard(ref vm);
         }

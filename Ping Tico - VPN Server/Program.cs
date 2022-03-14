@@ -11,7 +11,7 @@ namespace PingTicoVPNServer
         static void Main(string[] args)
         {
             Config.LoadConfig();
-            LoadArguments(new string[] { "--new-mp-server" });
+            //LoadArguments(new string[] { "--new-mp-server" });
         }
     
         //Loads all arguments
@@ -23,13 +23,12 @@ namespace PingTicoVPNServer
                 {
                     int retries = 0;
 
-                    int ServerPort = -1;
-                    
-                    while (retries < 3 && !Utils.ValidatePort(ServerPort))
+                    int serverPort = -1;
+                    while (retries < 3 && !Utils.ValidatePort(serverPort))
                     {
                         Console.WriteLine("Enter the Port the MP Server should listen at:");
-                        int.TryParse(Console.ReadLine(), out ServerPort);
-                        if(!Utils.ValidatePort(ServerPort))
+                        int.TryParse(Console.ReadLine(), out serverPort);
+                        if(!Utils.ValidatePort(serverPort))
                         {
                             retries++;
                             Console.WriteLine("{0}/3 - Invalid Server Port", retries);
@@ -38,12 +37,12 @@ namespace PingTicoVPNServer
                     }
                     retries = 0;
 
-                    string WireguardAddress = null;
-                    while (retries < 3 && !Utils.ValidateIpAddress(WireguardAddress))
+                    string wireguardAddress = null;
+                    while (retries < 3 && !Utils.ValidateIpAddress(wireguardAddress))
                     {
                         Console.WriteLine("Enter the address of Wireguard (xxx.xxx.xxx.xxx):");
-                        WireguardAddress = Console.ReadLine();
-                        if (!Utils.ValidateIpAddress(WireguardAddress))
+                        wireguardAddress = Console.ReadLine();
+                        if (!Utils.ValidateIpAddress(wireguardAddress))
                         {
                             retries++;
                             Console.WriteLine("{0}/3 - Invalid Wireguard Address", retries);
@@ -53,20 +52,23 @@ namespace PingTicoVPNServer
                     retries = 0;
 
                     
-                    int WireguardPort = -1;
-                    while(retries < 3 && (!Utils.ValidatePort(WireguardPort) || ServerPort == WireguardPort))
+                    int wireguardPort = -1;
+                    while(retries < 3 && (!Utils.ValidatePort(wireguardPort) || serverPort == wireguardPort))
                     {
                         Console.WriteLine("Enter the port of Wireguard:");
-                        int.TryParse(Console.ReadLine(), out WireguardPort);
-                        if (!Utils.ValidatePort(WireguardPort) || ServerPort == WireguardPort)
+                        int.TryParse(Console.ReadLine(), out wireguardPort);
+                        if (!Utils.ValidatePort(wireguardPort) || serverPort == wireguardPort)
                         {
                             retries++;
-                            Console.WriteLine("{0}/3 - Invalid Wireguard Port{1}", retries, ServerPort == WireguardPort ? " - Same port as Listen." : "");
+                            Console.WriteLine("{0}/3 - Invalid Wireguard Port{1}", retries, serverPort == wireguardPort ? " - Same port as Listen." : "");
                             if (retries > 3) { Environment.Exit(4); }
                         }
                     }
 
-                    Config.config.mp_servers.Add(new MultiPathServer(WireguardAddress, WireguardPort, ServerPort));
+                    MultiPathConnection mp = new MultiPathConnection(wireguardAddress, wireguardPort, serverPort);
+                    mp.StartMultiPath();
+
+                    Config.config.mp_servers.Add(mp);
                     Config.SaveConfig();
                 }
             }

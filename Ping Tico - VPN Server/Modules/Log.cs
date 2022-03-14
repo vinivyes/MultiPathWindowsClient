@@ -13,7 +13,7 @@ namespace PingTicoVPNServer.Modules
     }
     public static class Log
     {
-        public static void LogToConsole(LogLevel ll, string msg)
+        public static void ToConsole(LogLevel ll, string msg)
         {
             //Check if current logging level allows current log to be outputed
             switch (ll)
@@ -41,7 +41,7 @@ namespace PingTicoVPNServer.Modules
 
         public static void HandleError(Exception ex)
         {
-            LogToConsole(LogLevel.ERROR, String.Format("Exception\nMessage:\n{0}\n\nInner Exception:\n{1}\n\nStack Trace:{2}", ex.Message, ex.InnerException, ex.StackTrace));
+            ToConsole(LogLevel.ERROR, String.Format("Exception\nMessage:\n{0}\n\nInner Exception:\n{1}\n\nStack Trace:{2}", ex.Message, ex.InnerException, ex.StackTrace));
         }
     }
 }

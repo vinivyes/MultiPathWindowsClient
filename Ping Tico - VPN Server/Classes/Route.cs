@@ -8,22 +8,25 @@ using System.Threading;
 
 namespace PingTicoVPNServer.Classes
 {
-    class Route
+    /// <summary>
+    /// Represents the connection between a Multi Path Client and a Multi Path Server
+    /// </summary>
+    class Bridge
     {
 
-        public IPAddress ip { get; set; } //IP Address of the Route
-        public int port { get; set; } //Port of the Route
-        public DateTime registered_at { get; set; } //When was route added ?
+        public IPAddress ip { get; set; } //IP Address of the Bridge
+        public int port { get; set; } //Port of the Bridge
+        public DateTime registered_at { get; set; } //When was Bridge added ?
 
 
-        private IPEndPoint RemoteIpEndpoint;
+        private IPEndPoint remoteIpEndpoint; //The Bridge Endpoint 
 
-        public Route(IPAddress _ip, int _port)
+        public Bridge(IPAddress _ip, int _port)
         {
             ip = _ip;
             port = _port;
 
-            RemoteIpEndpoint = new IPEndPoint(ip, port);
+            remoteIpEndpoint = new IPEndPoint(ip, port);
 
             registered_at = DateTime.Now;
         }
