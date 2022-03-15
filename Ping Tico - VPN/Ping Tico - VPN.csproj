@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>PingTicoVPN</RootNamespace>
     <UseWPF>true</UseWPF>
+    <AssemblyName>ptvpnclient</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
