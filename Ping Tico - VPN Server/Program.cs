@@ -1,7 +1,7 @@
 ﻿using PingTicoVPNServer.Classes;
 using PingTicoVPNServer.Modules;
 using System;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace PingTicoVPNServer
@@ -23,6 +23,9 @@ namespace PingTicoVPNServer
             Config.LoadConfig();
             LoadArguments(args);
             //LoadArguments(new string[] { "--new-mp-server", "2", "--test" }); //Testing....
+
+            //Ensure components are installed in Linux
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) Utils.CheckPrerequisites(true);
 
             //Keep Alive
             while(true) { Thread.Sleep(1000); }

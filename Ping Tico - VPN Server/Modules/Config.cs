@@ -11,10 +11,10 @@ namespace PingTicoVPNServer.Modules
     /// </summary>
 
     public class ConfigData {
-        public int mp_bridge_timeout_min { get; set; } = 5;
-        public int mp_bridge_timeout_interval_sec { get; set; } = 5;
-        public LogLevel log_level { get; set; } = LogLevel.INFO;
-        public List<MultiPathConnection> mp_servers { get; set; } = new List<MultiPathConnection>();
+        public int mp_bridge_timeout_min { get; set; } = 5;             //How often bridges need to be renewed
+        public int mp_bridge_timeout_interval_sec { get; set; } = 5;    //Interval between each bridge timeout (Prevents all bridges from going down at once)
+        public LogLevel log_level { get; set; } = LogLevel.INFO;        //Max level of Log Output.
+        public List<MultiPathConnection> mp_servers { get; set; } = new List<MultiPathConnection>();          //All running MP Servers
 
         public bool MultiPathPortFree(int server_port)
         {
@@ -57,6 +57,7 @@ namespace PingTicoVPNServer.Modules
             }            
         }
 
+        //Saves latest config to config.json
         public static void SaveConfig()
         {
             File.WriteAllText("./config.json", Encoding.UTF8.GetString(JsonSerializer.Serialize<ConfigData>(config)));
