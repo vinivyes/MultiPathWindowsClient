@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace PingTicoVPN.Modules
@@ -13,7 +14,7 @@ namespace PingTicoVPN.Modules
     }
     public static class Log
     {
-        public static LogLevel logLevel = LogLevel.INFO;
+        public static LogLevel logLevel = LogLevel.DEBUG;
         public static void ToConsole(LogLevel ll, string msg)
         {
             //Check if current logging level allows current log to be outputed
@@ -37,7 +38,7 @@ namespace PingTicoVPN.Modules
                     break;
             }
 
-            Console.WriteLine(String.Format("[{0}][{1}] - {2}", Enum.GetName(typeof(LogLevel), ll), DateTime.Now.ToString("s"), msg));
+            Trace.WriteLine(String.Format("[{0}][{1}] - {2}", Enum.GetName(typeof(LogLevel), ll), DateTime.Now.ToString("s"), msg));
         }
 
         public static void HandleError(Exception ex)

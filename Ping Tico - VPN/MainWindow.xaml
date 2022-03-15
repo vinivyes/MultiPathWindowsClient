@@ -115,7 +115,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image MouseDown="RouteDelete_MouseDown" Cursor="Hand" Source="/Resources/Icons/delete.png" Margin="7 0" Height="20" Width="20" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
-                        <ComboBox SelectedIndex="0" ItemsSource="{Binding InterfaceList}" Margin="0 0 0 0" Width="140" SelectionChanged="RouteInterface_SelectionChanged">
+                        <ComboBox SelectedIndex="{Binding SelectedInterfaceIndex}" IsEnabled="{Binding InterfaceSelectorActive}" ItemsSource="{Binding InterfaceList}" Margin="0 0 0 0" Width="140" SelectionChanged="RouteInterface_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding name}" FontSize="11"></TextBlock>

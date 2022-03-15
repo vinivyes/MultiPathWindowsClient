@@ -199,7 +199,7 @@ namespace PingTicoVPN
                 Route r = (Route)((ComboBox)sender).DataContext;
                 Interface i = (Interface)((ComboBox)sender).SelectedItem;
 
-                r.ReconfigureSocket(i); //Reconfigure Socket to use selected Network Interface
+                r.ReconfigureSocket(i, ((ComboBox)sender).SelectedIndex); //Reconfigure Socket to use selected Network Interface
             }
             catch (Exception ex)
             {

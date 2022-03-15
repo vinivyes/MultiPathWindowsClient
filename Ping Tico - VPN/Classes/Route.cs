@@ -9,8 +9,9 @@ using System.Windows.Media;
 using System.Threading;
 using PingTicoVPN.Modules;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
-namespace PingTicoVPN.Classes
+namespace PingTicoVPN.Classes 
 {
     /// <summary>
     /// Represents a connection route to the server, may be bound to any network interface.
@@ -32,8 +33,13 @@ namespace PingTicoVPN.Classes
 
                 Item_Color = value ? new SolidColorBrush(Color.FromRgb(255, 255, 255)) : new SolidColorBrush(Color.FromRgb(155, 155, 155));
 
+                InterfaceSelectorActive = !value;
             } 
         } //Is route active ?
+
+        public bool InterfaceSelectorActive { get; set; } = true;
+
+        public int SelectedInterfaceIndex { get; set; } = 0; //What is the index of the currently selected interface.
 
         public Visibility Active_Visibility { get; set; } = Visibility.Collapsed; //If the UI should display this route as active
         public Visibility Inactive_Visibility { get; set; } = Visibility.Visible; //If the UI should display this route as inactive
@@ -82,16 +88,48 @@ namespace PingTicoVPN.Classes
             {
                 ReplicatePacket(new byte[] { 1, 2, 3 });  //Send 3 byte packet signaling server to disconnect bridge.
 
-                //Stop threads receving data from server
-                receivingData = false;
-                receiveDataThread.Interrupt();
+                ForceDisconnectRoute();  //Disconnects route
+            }
+        }
 
+        //Makes sure route is disconnected
+        private void ForceDisconnectRoute()
+        {
+            Application.Current.Dispatcher.Invoke(() => active = false);
+            try
+            {
                 //Close and Dispose of socket.
                 sock.Close();
                 sock.Dispose();
                 sock = null;
 
-                Log.ToConsole(LogLevel.ERROR, String.Format("Socket sending to {0}:{1} is now Disconnected", ip, port));
+                //Stop threads receving data from server
+                receivingData = false;
+                receiveDataThread.Interrupt();
+
+                //Timeout wait for thread.
+                Stopwatch timeout = new Stopwatch();
+                timeout.Start();
+
+                //Wait for thread to stop, or timeout.
+                while (receiveDataThread.ThreadState != System.Threading.ThreadState.Stopped && timeout.Elapsed.TotalSeconds < 3)
+                {
+                    Log.ToConsole(LogLevel.INFO, String.Format("Thread State:{0}", receiveDataThread.ThreadState));
+                    Thread.Sleep(10);
+                }
+
+                //If thread does not stop before 3 second timeout.
+                if (receiveDataThread.ThreadState != System.Threading.ThreadState.Stopped && timeout.Elapsed.TotalSeconds > 3)
+                {
+                    Log.ToConsole(LogLevel.ERROR, String.Format("Socket sending to {0}:{1} is could not be closed. Application may not work as expected", ip, port));
+                    return;
+                }
+
+                Log.ToConsole(LogLevel.INFO, String.Format("Socket sending to {0}:{1} is now Disconnected", ip, port));
+            }
+            catch (Exception ex)
+            {
+                Log.HandleError(ex);
             }
         }
 
@@ -114,9 +152,11 @@ namespace PingTicoVPN.Classes
         }
 
         //Recreates the route with the desired interface configuration.
-        public void ReconfigureSocket(Interface i)
+        public void ReconfigureSocket(Interface i, int index)
         {
             blockRoute = true; //Temporarilly prevents changes to the status of this route.
+
+            SelectedInterfaceIndex = index; //Updates the current selected index.
 
             bool initialStatus = active;   //Saves initial state of the route to return route to initial state later
             
@@ -133,7 +173,21 @@ namespace PingTicoVPN.Classes
         //Replicates a packet to the server using this route
         public void ReplicatePacket(Byte[] data)
         {
-            sock.Send(data, data.Length, RemoteIpEndpoint);
+            try
+            {
+                sock.Send(data, data.Length, RemoteIpEndpoint);
+            }
+            catch(SocketException ex)
+            {
+                if(ex.SocketErrorCode == SocketError.AddressNotAvailable)
+                {
+                    ForceDisconnectRoute();
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.HandleError(ex);
+            }
         }
 
         //Replicates a packet to the server using this route
