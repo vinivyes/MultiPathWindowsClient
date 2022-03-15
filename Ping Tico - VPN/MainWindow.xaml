@@ -114,18 +114,26 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image MouseDown="RouteToggle_MouseDown" Cursor="Hand" Source="/Resources/Icons/toggle_on.png" Visibility="{Binding Active_Visibility}" Margin="0 0 10 0" Height="24" Width="24" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
-                        <Image MouseDown="RouteToggle_MouseDown" Cursor="Hand" Source="/Resources/Icons/toggle_off.png" Visibility="{Binding Inactive_Visibility}" Margin="0 0 10 0" Height="24" Width="24" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                        <Image MouseDown="RouteDelete_MouseDown" Cursor="Hand" Source="/Resources/Icons/delete.png" Margin="7 0" Height="20" Width="20" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                        <ComboBox SelectedIndex="0" ItemsSource="{Binding InterfaceList}" Margin="0 0 0 0" Width="140" SelectionChanged="RouteInterface_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}" FontSize="11"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Image MouseDown="RouteToggle_MouseDown" Cursor="Hand" Source="/Resources/Icons/toggle_on.png" Visibility="{Binding Active_Visibility}" Margin="10 0 3 0" Height="24" Width="24" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                        <Image MouseDown="RouteToggle_MouseDown" Cursor="Hand" Source="/Resources/Icons/toggle_off.png" Visibility="{Binding Inactive_Visibility}" Margin="10 0 3 0" Height="24" Width="24" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
                         <TextBlock Text="{Binding name}" FontSize="13" FontWeight="Bold" VerticalAlignment="Center" Foreground="{Binding Item_Color}"/>
                         <TextBlock FontWeight="Light" FontSize="11" VerticalAlignment="Center" Foreground="{Binding Item_Color}">
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="    {0}:{1}">
+                                <MultiBinding StringFormat="    {0}:{1} | ">
                                     <Binding Path="ip"/>
                                     <Binding Path="port"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                        <Image MouseDown="RouteDelete_MouseDown" Cursor="Hand" Source="/Resources/Icons/delete.png" Margin="10 0 0 0" Height="20" Width="20" Stretch="Uniform" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                        <TextBlock Text="{Binding pingText}" Width="60" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{Binding Item_Color}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

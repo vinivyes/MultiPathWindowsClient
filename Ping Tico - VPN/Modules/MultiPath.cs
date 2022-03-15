@@ -47,6 +47,7 @@ namespace PingTicoVPN.Modules
             receiveDataThread.Start();
         }
 
+        //Function to receive data from Wireguard while 'receivingData' is true. Called as a new Thread
         private static void ReceiveDataFromWireguard()
         {
             
@@ -55,17 +56,19 @@ namespace PingTicoVPN.Modules
             {
                 try
                 {
-                    Byte[] receiveBytes = dataReceiver.Receive(ref RemoteIpEndPoint);
+                    Byte[] receiveBytes = dataReceiver.Receive(ref RemoteIpEndPoint); //Receive data...
                 
-                    foreach(Route r in vm.RouteList)
+                    foreach(Route r in vm.RouteList)  //For each route...
                     {
-                        if (r.active)
+                        if (r.active)  //Currently Active...
                         {
-                            r.ReplicatePacket(receiveBytes);
+                            r.ReplicatePacket(receiveBytes); //Send a copy of the received data.
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex) {
+                    Log.HandleError(ex);
+                }
             }
         }
 

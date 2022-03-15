@@ -9,9 +9,12 @@ using System.Windows.Media.Imaging;
 
 namespace PingTicoVPN.Modules
 {
+    /// <summary>
+    /// Functions that may be useful accross the whole application.
+    /// </summary>
     public static class Helpers
     {
-
+        //Converts a Bitmap to a BitmapImage
         public static BitmapImage ToBitmapImage(this Bitmap bitmap)
         {
             using (var memory = new MemoryStream())

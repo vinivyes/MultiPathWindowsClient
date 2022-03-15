@@ -15,6 +15,12 @@ namespace PingTicoVPNServer.Modules
         public int mp_bridge_timeout_interval_sec { get; set; } = 5;
         public LogLevel log_level { get; set; } = LogLevel.INFO;
         public List<MultiPathConnection> mp_servers { get; set; } = new List<MultiPathConnection>();
+
+        public bool MultiPathPortFree(int server_port)
+        {
+            foreach(MultiPathConnection c in mp_servers) { if(c.serverPort == server_port) return false; }
+            return true;
+        }
     }
 
     public static class Config
@@ -56,5 +62,6 @@ namespace PingTicoVPNServer.Modules
             File.WriteAllText("./config.json", Encoding.UTF8.GetString(JsonSerializer.Serialize<ConfigData>(config)));
             Log.ToConsole(LogLevel.INFO, "Saved Configuration File");
         }
+        
     }
 }

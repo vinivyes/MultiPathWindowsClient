@@ -32,6 +32,7 @@ namespace PingTicoVPN.Dialogs
 
         #region - New Character Input Validation
 
+        //Blocks any input that does not result in a Valid IP Address
         private void IPAddress_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox tb = (TextBox)e.Source;
@@ -60,6 +61,8 @@ namespace PingTicoVPN.Dialogs
                 e.Handled = true;                             //Cancel input
                 return;
             }
+
+            //Validate each section of the IP Address
             foreach (string section in sections)
             {
                 if (section.Length > 3) { e.Handled = true; } //If section of IP has more than 3 characters
@@ -68,6 +71,7 @@ namespace PingTicoVPN.Dialogs
 
         }
 
+        //Blocks any input that does not result in a valid port.
         private void Port_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox tb = (TextBox)e.Source;
@@ -91,6 +95,10 @@ namespace PingTicoVPN.Dialogs
         #endregion - New Character Input Validation
 
         #region - Application actions such as Paste, Cut, etc...
+        /// <summary>
+        /// Handles input by action, Paste, Cut and others.
+        /// </summary>
+
         private bool isIPAddressPasted = false;
         private string previousToPasteText = "";
         private void IPAddress_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -196,11 +204,11 @@ namespace PingTicoVPN.Dialogs
         #endregion - Make changes to Text Box Validation
 
         #region - Form Validation
-
+        //Validate if Form is Valid and Add button should be enabled.
         private void ValidateForm() {
             bool isValid = true;
 
-            Regex regex = new Regex(@"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b");
+            Regex regex = new Regex(@"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b"); //Valid iPv4 address
 
             int port = 99999;
             if (!regex.IsMatch(IPAddressTB.Text)) { 
@@ -219,6 +227,7 @@ namespace PingTicoVPN.Dialogs
 
         #endregion - Form Validation
 
+        #region - Window Events
         private void CancelBTN_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -233,5 +242,6 @@ namespace PingTicoVPN.Dialogs
 
             this.Close();
         }
+        #endregion - Window Events
     }
 }

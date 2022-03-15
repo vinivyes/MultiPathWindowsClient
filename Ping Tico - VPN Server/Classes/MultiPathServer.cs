@@ -61,6 +61,8 @@ namespace PingTicoVPNServer.Modules
 
             try
             {
+                mpActive = true;
+
                 wireguardIpEndpoint = new IPEndPoint(IPAddress.Parse(wireguardAddress), wireguardPort);
 
                 server = new UdpClient(serverPort); //Opens listen port on desired port
@@ -68,7 +70,7 @@ namespace PingTicoVPNServer.Modules
                 wireguardSocket.Connect(wireguardIpEndpoint); //Connect to Wireguard
 
                 Log.ToConsole(LogLevel.INFO, String.Format("Connected to Wireguard on {0}:{1}", wireguardAddress, wireguardPort));
-            
+
                 //Receives packets from Bridges and register new bridges
                 mpBridges = Task.Run(() => {
                     while (mpActive)
@@ -76,6 +78,17 @@ namespace PingTicoVPNServer.Modules
                         try
                         {
                             Byte[] receiveBytes = server.Receive(ref remoteIpEndPoint);
+
+                            if(receiveBytes.Length == 2) //Ping
+                            {
+                                server.Send(receiveBytes, 2, remoteIpEndPoint);
+                                continue;
+                            }
+                            if (receiveBytes.Length == 3) //Remove Route
+                            {
+                                bridges.Remove(remoteIpEndPoint);
+                                continue;
+                            }
 
                             wireguardSocket.Send(receiveBytes); //Forward packet to bridge
 
